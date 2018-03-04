@@ -2,7 +2,7 @@
   "name": "apollo-mongo-webpack",
   "private": true,
   "scripts": {
-    "start": "webpack && node ./dist/bundle.js"
+    "start": "webpack -p && node ./dist/bundle.js"
   },
   "author": "Joshua Purcell <joshua.purcell@gmail.com>",
   "dependencies": {
