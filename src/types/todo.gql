@@ -6,12 +6,12 @@ type Todo {
 
 type Query {
   todos: [Todo]
-  todo(todoId: String!): Todo
+  todo(id: String!): Todo
 }
 
 type Mutation {
   addTodo(title: String!): Todo
-  toggleTodo(todoId: String!): Todo
-  destroyTodo(todoId: String!): Todo
+  toggleTodo(id: String!): Todo
+  destroyTodo(id: String!): Todo
   setAllTodosCompleted(completed: Boolean!): [Todo]
 }

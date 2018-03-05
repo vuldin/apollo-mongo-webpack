@@ -1,21 +1,48 @@
-import { makeExecutableSchema } from 'graphql-tools'
 import bodyParser from 'body-parser'
 import express from 'express'
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
+import database from './database'
+import dotenv from 'dotenv'
 
-import typeDefs from './typeDefs'
-import resolvers from './resolvers'
-//import resolvers from './resolvers/todo'
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-})
+dotenv.config()
 
 const port = process.env.PORT || 8080
 const app = express()
 
+database.open()
+let stopping = false
+
+import schema from './execSchema'
+
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
-app.listen(port, () => console.log(`> server running on ${port}`))
+const server = app.listen(port, () =>
+  console.log(`> server running on ${port}`)
+)
+
+// ensure db connection closes along with server
+// https://stackoverflow.com/a/13446053/2316606
+app.use((req, res, next) => {
+  if (!stopping) return next()
+  res.setHeader('Connection', 'close')
+  res.send(503, 'server restarting')
+})
+
+function cleanup() {
+  console.log('\n')
+  stopping = true
+  server.close(() => {
+    console.log('> closed remaining connections')
+    database.close()
+    process.exit()
+  })
+
+  setTimeout(() => {
+    console.error('error closing connections in time, forcing shut down')
+    process.exit(1)
+  }, 5000)
+}
+
+process.on('SIGINT', cleanup)
+process.on('SIGTERM', cleanup)
