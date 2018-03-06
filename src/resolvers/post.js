@@ -4,7 +4,6 @@ const posts = [
   { id: 3, author: 2, title: 'Advanced GraphQL', votes: 1 },
 ]
 
-//export default function() {
 module.exports = {
   Query: {
     posts: () => {

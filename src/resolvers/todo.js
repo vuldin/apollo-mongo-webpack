@@ -1,4 +1,3 @@
-//import Todo from '../models/todo'
 const Todo = require('../models/todo')
 
 const getTodos = () => {
@@ -10,7 +9,6 @@ const getTodos = () => {
   })
 }
 
-//export default {
 module.exports = {
   Query: {
     todos: () => {

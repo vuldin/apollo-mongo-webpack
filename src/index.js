@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
-import database from './database'
+import Database from './database'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -9,6 +9,7 @@ dotenv.config()
 const port = process.env.PORT || 8080
 const app = express()
 
+const database = new Database()
 database.open()
 let stopping = false
 
