@@ -12,7 +12,8 @@ export default {
     })
   },
   close() {
-    mongoose.connection.close()
+    //mongoose.connection.close()
+    mongoose.disconnect()
     console.log('> mongo disconnected')
   },
 }

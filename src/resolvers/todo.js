@@ -1,4 +1,5 @@
-import Todo from '../models/todo'
+//import Todo from '../models/todo'
+const Todo = require('../models/todo')
 
 const getTodos = () => {
   return new Promise((resolve, reject) => {
@@ -9,7 +10,8 @@ const getTodos = () => {
   })
 }
 
-export default {
+//export default {
+module.exports = {
   Query: {
     todos: () => {
       return getTodos()
